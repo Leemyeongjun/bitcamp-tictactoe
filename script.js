@@ -18,29 +18,33 @@ let running = false;
 initializeGame();
 
 function initializeGame() {
-    boxs.forEach(box => box.addEventListener("click", cellClicked));
+    boxs.forEach(box => box.addEventListener("click", boxClicked));
     restartBtn.addEventListener("click", restartGame);
     statusText.textContent = `${currentPlayer}의 차례`;
     running = true;
 }
-function cellClicked() {
+
+function boxClicked() {
     const boxIndex = this.getAttribute("boxIndex");
 
     if(table_option[boxIndex] != "" || !running){
         return;
     }
 
-    updateCell(this, boxIndex);
+    updateBox(this, boxIndex);
     checkWinner();
 }
-function updateCell(boxs, index) {
+
+function updateBox(boxs, index) {
     table_option[index] = currentPlayer;
     boxs.textContent = currentPlayer;
 }
+
 function changePlayer() {
     currentPlayer = (currentPlayer == "O") ? "X" : "O";
     statusText.textContent = `${currentPlayer}의 차례`;
 }
+
 function checkWinner() {
     let win = false;
 
@@ -71,6 +75,7 @@ function checkWinner() {
         changePlayer();
     }
 }
+
 function restartGame() {
     currentPlayer = "O";
     table_option = ["", "", "", "", "", "", "", "", ""];
