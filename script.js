@@ -1,7 +1,7 @@
-const cells = document.querySelectorAll(".cell");
+const box = document.querySelectorAll(".box");
 const statusText = document.querySelector("#statusText");
 const restartBtn = document.querySelector("#restartBtn");
-const winConditions = [
+ win_table = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -11,60 +11,60 @@ const winConditions = [
     [0, 4, 8],
     [2, 4, 6]
 ];
-let options = ["", "", "", "", "", "", "", "", ""];
+let table_option = ["", "", "", "", "", "", "", "", ""];
 let currentPlayer = "O";
 let running = false;
 
 initializeGame();
 
 function initializeGame() {
-    cells.forEach(cell => cell.addEventListener("click", cellClicked));
+    box.forEach(box => box.addEventListener("click", cellClicked));
     restartBtn.addEventListener("click", restartGame);
     statusText.textContent = `${currentPlayer}의 차례`;
     running = true;
 }
 function cellClicked() {
-    const cellIndex = this.getAttribute("cellIndex");
+    const boxIndex = this.getAttribute("boxIndex");
 
-    if(options[cellIndex] != "" || !running){
+    if(table_option[boxIndex] != "" || !running){
         return;
     }
 
-    updateCell(this, cellIndex);
+    updateCell(this, boxIndex);
     checkWinner();
 }
-function updateCell(cell, index) {
-    options[index] = currentPlayer;
-    cell.textContent = currentPlayer;
+function updateCell(box, index) {
+    table_option[index] = currentPlayer;
+    box.textContent = currentPlayer;
 }
 function changePlayer() {
     currentPlayer = (currentPlayer == "O") ? "X" : "O";
     statusText.textContent = `${currentPlayer}의 차례`;
 }
 function checkWinner() {
-    let roundWon = false;
+    let win = false;
 
-    for(let i = 0; i < winConditions.length; i++){
-        const condition = winConditions[i];
-        const cellA = options[condition[0]];
-        const cellB = options[condition[1]];
-        const cellC = options[condition[2]];
+    for(let i = 0; i < win_table.length; i++){
+        const table = win_table[i];
+        const boxA = table_option[table[0]];
+        const boxB = table_option[table[1]];
+        const boxC = table_option[table[2]];
 
-        if(cellA == "" || cellB == "" || cellC == ""){
+        if(boxA == "" || boxB == "" || boxC == ""){
             continue;
         }
-        if(cellA == cellB && cellB == cellC){
-            roundWon = true;
+        if(boxA == boxB && boxB == boxC){
+            win = true;
             break;
         }
     }
 
-    if(roundWon) {
+    if(win) {
         statusText.textContent = `${currentPlayer} 승리!`;
         running = false;
     }
-    else if(!options.includes("")){
-        statusText.textContent = `무승부!`;
+    else if(!table_option.includes("")){
+        statusText.textContent = '무승부';
         running = false;
     }
     else{
@@ -73,8 +73,8 @@ function checkWinner() {
 }
 function restartGame() {
     currentPlayer = "O";
-    options = ["", "", "", "", "", "", "", "", ""];
+    table_option = ["", "", "", "", "", "", "", "", ""];
     statusText.textContent = `${currentPlayer}의 차례`;
-    cells.forEach(cell => cell.textContent = "");
+    box.forEach(box => box.textContent = "");
     running = true;
 }
