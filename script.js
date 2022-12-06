@@ -1,4 +1,4 @@
-const box = document.querySelectorAll(".box");
+const boxs = document.querySelectorAll(".box");
 const statusText = document.querySelector("#statusText");
 const restartBtn = document.querySelector("#restartBtn");
  win_table = [
@@ -18,7 +18,7 @@ let running = false;
 initializeGame();
 
 function initializeGame() {
-    box.forEach(box => box.addEventListener("click", cellClicked));
+    boxs.forEach(box => box.addEventListener("click", cellClicked));
     restartBtn.addEventListener("click", restartGame);
     statusText.textContent = `${currentPlayer}의 차례`;
     running = true;
@@ -33,9 +33,9 @@ function cellClicked() {
     updateCell(this, boxIndex);
     checkWinner();
 }
-function updateCell(box, index) {
+function updateCell(boxs, index) {
     table_option[index] = currentPlayer;
-    box.textContent = currentPlayer;
+    boxs.textContent = currentPlayer;
 }
 function changePlayer() {
     currentPlayer = (currentPlayer == "O") ? "X" : "O";
@@ -75,6 +75,6 @@ function restartGame() {
     currentPlayer = "O";
     table_option = ["", "", "", "", "", "", "", "", ""];
     statusText.textContent = `${currentPlayer}의 차례`;
-    box.forEach(box => box.textContent = "");
+    boxs.forEach(box => box.textContent = "");
     running = true;
 }
